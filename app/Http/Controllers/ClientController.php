@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ClientsExport;
+use App\Imports\ClientsImport;
 use App\Models\City;
 use App\Models\Client;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 /**
  * Class ClientController
@@ -123,5 +126,17 @@ class ClientController extends Controller
 
         return redirect()->route('clients.index')
             ->with('success', 'Client deleted successfully');
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new ClientsExport, 'client-list.xlsx');
+    }
+
+    public function importExcel(Request $request)
+    {
+        $file = $request->file('file');
+        Excel::import(new ClientsImport, $file);
+        return back()->with('success', 'Successful client import');
     }
 }

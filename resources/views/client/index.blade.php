@@ -16,12 +16,25 @@
                                 {{ __('Client') }}
                             </span>
 
+                            <div class="float-right" style="display: inline-flex">
+
+                                 <form action="{{ route('users.import.excel') }}" method="post" enctype="multipart/form-data" style="display: inline-flex">
+                                     @csrf
 
 
-                             <div class="float-right">
-                                <a href="{{ route('clients.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
+                                     <input class="form-control form-control-sm" type="file" name="file" style="margin-right: 10px" required>
+
+                                     <button class="btn btn-primary btn-sm float-right" style="min-width: max-content; margin-right: 10px">Import from excel</button>
+                                 </form>
+
+                                 <a href="{{ route('clients.export.excel') }}" class="btn btn-primary btn-sm float-right" style="margin-right: 10px">
+                                     Export all as excel
+                                 </a>
+
+                                 <a href="{{ route('clients.create') }}" class="btn btn-primary btn-sm float-right" style="margin-right: 10px" data-placement="left">
                                   {{ __('Create New') }}
                                 </a>
+
                               </div>
                         </div>
                     </div>
@@ -40,7 +53,43 @@
 
 										<th>Cod</th>
 										<th>Name</th>
-										<th>City Name</th>
+										<th style="display: flex">
+                                            City Name
+
+                                            {{
+                                                Form::select(
+                                                    'city_id',
+                                                    $cities,
+                                                    '',
+                                                    [
+                                                      'class' => 'form-select form-select-sm',
+                                                      'placeholder' => 'Todos',
+                                                      'id'=> 'cityFilter',
+                                                      'style' => 'max-width: max-content; margin-left: 5px'
+                                                    ],
+                                                )
+                                            }}
+                                            <script>
+                                                let element = document.getElementById('cityFilter');
+
+                                                element.value = getParameterByName('filterByCityId');
+
+                                                element.addEventListener('change', (event) => {
+                                                    window.location.replace(`/clients?filterByCityId=${event.target.value}`)
+                                                });
+
+                                                function getParameterByName(name, url = window.location.href) {
+                                                    name = name.replace(/[\[\]]/g, '\\$&');
+                                                    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                                                        results = regex.exec(url);
+                                                    if (!results) return null;
+                                                    if (!results[2]) return '';
+                                                    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+                                                }
+
+                                            </script>
+
+                                        </th>
 
                                         <th></th>
                                     </tr>
@@ -49,26 +98,10 @@
 
                                         <th></th>
                                         <th></th>
-                                        <th>{{ Form::select('city_id', $cities, '',['class' => 'form-select', 'placeholder' => 'Todos', 'id'=> 'cityFilter']) }}</th>
-                                        <script>
-                                            let element = document.getElementById('cityFilter');
+                                        <th>
 
-                                            element.value = getParameterByName('filterByCityId');
+                                        </th>
 
-                                            element.addEventListener('change', (event) => {
-                                                window.location.replace(`/clients?filterByCityId=${event.target.value}`)
-                                            });
-
-                                            function getParameterByName(name, url = window.location.href) {
-                                                name = name.replace(/[\[\]]/g, '\\$&');
-                                                var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-                                                    results = regex.exec(url);
-                                                if (!results) return null;
-                                                if (!results[2]) return '';
-                                                return decodeURIComponent(results[2].replace(/\+/g, ' '));
-                                            }
-
-                                        </script>
                                         <th></th>
                                     </tr>
                                 </thead>
