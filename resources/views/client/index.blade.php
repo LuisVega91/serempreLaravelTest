@@ -50,25 +50,12 @@
                                 <thead class="thead">
                                     <tr>
                                         <th>No</th>
-
 										<th>Cod</th>
 										<th>Name</th>
 										<th style="display: flex">
                                             City Name
 
-                                            {{
-                                                Form::select(
-                                                    'city_id',
-                                                    $cities,
-                                                    '',
-                                                    [
-                                                      'class' => 'form-select form-select-sm',
-                                                      'placeholder' => 'Todos',
-                                                      'id'=> 'cityFilter',
-                                                      'style' => 'max-width: max-content; margin-left: 5px'
-                                                    ],
-                                                )
-                                            }}
+                                            {{ Form::select('city_id', $cities, '',['class' => 'form-select form-select-sm', 'placeholder' => 'Todos', 'id'=> 'cityFilter', 'style' => 'max-width: max-content; margin-left: 5px']) }}
                                             <script>
                                                 let element = document.getElementById('cityFilter');
 
@@ -93,17 +80,7 @@
 
                                         <th></th>
                                     </tr>
-                                    <tr>
-                                        <th></th>
 
-                                        <th></th>
-                                        <th></th>
-                                        <th>
-
-                                        </th>
-
-                                        <th></th>
-                                    </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($clients as $client)
