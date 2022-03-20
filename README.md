@@ -9,8 +9,8 @@
 
 ##Instructions for deployment
 - make sure you have the correct versions to run this project
-- git clone https://github.com/LuisVega91/serempreTest
-- cd serempreTest
+- git clone https://github.com/LuisVega91/serempreLaravelTest
+- cd serempreLaravelTest
 - composer install
 - create file .env
 - configure this file based on .env.example
