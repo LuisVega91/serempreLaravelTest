@@ -26,7 +26,7 @@ class LoginApiController extends Controller
             ], 401);
         }
 
-        $accessToken = Auth::user()->createToken(env('PASSPORT_CLIENT_SECRET'))->accessToken;
+        $accessToken = Auth::user()->createToken(env('APP_KEY'))->accessToken;
         return response([
             "user" => Auth::user(),
             "access_token" => $accessToken,

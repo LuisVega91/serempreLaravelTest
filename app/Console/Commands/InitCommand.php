@@ -5,14 +5,14 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 
-class SetDefaultData extends Command
+class InitCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:set-default-data';
+    protected $signature = 'init';
 
     /**
      * The console command description.
@@ -39,10 +39,21 @@ class SetDefaultData extends Command
     public function handle()
     {
         try {
-            Artisan::call('migrate:refresh --seed');
-            print 'Predefined data set correctly..';
+
+            Artisan::call('key:generate');
+            $this->info('key:generate => successful');
+            Artisan::call('migrate:reset');
+            $this->info('migrate:reset => successful');
+            Artisan::call('voyager:install');
+            $this->info('voyager:install => successful');
+            Artisan::call('db:seed');
+            $this->info('db:seed => successful');
+            Artisan::call('passport:install');
+            $this->info('passport:install => successful');
+
+            $this->info('Predefined data set correctly..');
         }catch (\Exception $exception){
-            print $exception->getMessage();
+            $this->alert($exception->getMessage());
         }
         return 0;
     }
